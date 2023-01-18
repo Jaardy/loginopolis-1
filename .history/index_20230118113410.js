@@ -24,7 +24,7 @@ app.get("/", async (req, res, next) => {
 app.post("/register", async (req, res, next) => {
   try {
     const { username, password } = req.body;
-    const hashed = await bcrypt.hash(password, 0);
+    const hashed = await bcrypt.hash(password, SALT_COUNT);
     await User.create({ username, password: hashed });
     res.send(`successfully created user ${username}`);
   } catch (error) {
@@ -44,7 +44,6 @@ app.post("/login", async (req, res, next) => {
       res.send("User is not found.");
       return;
     }
-    // const isMatch = await bcrypt.compare(password, user.password);
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       res.status(401).send("Username or password is incorrect.");

@@ -45,7 +45,7 @@ app.post("/login", async (req, res, next) => {
       return;
     }
     // const isMatch = await bcrypt.compare(password, user.password);
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.hash(password, 0);
     if (!isMatch) {
       res.status(401).send("Username or password is incorrect.");
       return;
